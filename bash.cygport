@@ -19,20 +19,26 @@ SRC_URI="mirror://gnu/bash/${P%.*}.tar.gz \
 SRC_DIR="bash-${VERSION%.*}"
 PATCH_URI=$(seq -f "mirror://gnu/bash/${P%.*}-patches/${PN}${PV_MAJ_MIN//./}-%03g " ${P##*.})
 PATCH_URI+=" 4.1-cygwin.patch"
+PATCH_URI+=" 4.1-deprecations.patch"
+PATCH_URI+=" 4.1-readline-64bit.patch"
 
 # Use of ac_cv_rl_prefix is a hack; the readline libraries are in /usr/src,
 # but that gets included automatically, and bash links -L${ac_cv_rl_prefix}
 # prior to LDFLAGS.  Since we don't want /usr/lib/ncurses, this hack lets
 # us get /usr/lib/ncursesw in its place while still using /usr/lib/readline.
-CPPFLAGS="-I/usr/include/ncursesw -DWORDEXP_OPTION"
-LDFLAGS="-L/usr/lib/ncursesw"
+CPPFLAGS="-DWORDEXP_OPTION"
 CYGCONF_ARGS="
 	--without-libintl-prefix --without-libiconv-prefix
-	--with-curses
 	--with-installed-readline
-	bash_cv_dev_stdin=present bash_cv_dev_fd=standard
+	bash_cv_dev_stdin=present
+	bash_cv_dev_fd=standard
+	bash_cv_termcap_lib=libncurses
+	bash_cv_type_intmax_t=int64_t
+	bash_cv_type_uintmax_t=uint64_t
+	ac_cv_rl_version=6.2
+	ac_cv_func_isblank=yes
 "
-DIFF_EXCLUDES='bashref.info'
+DIFF_EXCLUDES='bashref.info configure'
 
 # Interaction with bashdb
 export DEBUGGER_START_FILE=/usr/share/bashdb/bashdb-main.inc
@@ -46,11 +52,12 @@ src_compile()
   # Prepopulate the release level.
   expr $PR - 1 > .build || :
   # Parallel make builds version.h twice, which over-increments .build.
-  cygmake -j1
+  cygmake -j1 HISTORY_LDFLAGS= READLINE_LDFLAGS=
   # execute_cmd.c uses undefined behavior across longjmp, which results
   # in miscompilation at -O2.
   rm execute_cmd.o
-  make CFLAGS="${CFLAGS} -O1" LOCAL_LDFLAGS='-Wl,--export-all,--out-implib,lib$(@:.exe=.dll.a)'
+  make CFLAGS="${CFLAGS} -O1" HISTORY_LDFLAGS= READLINE_LDFLAGS= \
+	 LOCAL_LDFLAGS='-Wl,--export-all,--out-implib,lib$(@:.exe=.dll.a)'
 }
 
 src_install()
