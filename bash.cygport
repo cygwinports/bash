@@ -5,7 +5,7 @@
 
 NAME="bash"
 VERSION=4.1.11
-RELEASE=1
+RELEASE=3
 CATEGORY="Base Shells"
 SUMMARY="The GNU Bourne Again SHell"
 DESCRIPTION="Bash is an sh-compatible shell that incorporates useful features
@@ -18,9 +18,11 @@ SRC_URI="mirror://gnu/bash/${P%.*}.tar.gz \
          mirror://gnu/bash/${P%.*}.tar.gz.sig"
 SRC_DIR="bash-${VERSION%.*}"
 PATCH_URI=$(seq -f "mirror://gnu/bash/${P%.*}-patches/${PN}${PV_MAJ_MIN//./}-%03g " ${P##*.})
-PATCH_URI+=" 4.1-cygwin.patch"
-PATCH_URI+=" 4.1-deprecations.patch"
-PATCH_URI+=" 4.1-readline-64bit.patch"
+PATCH_URI+="
+	4.1-cygwin.patch
+	4.1-deprecations.patch
+	4.1-readline-64bit.patch
+"
 
 # Use of ac_cv_rl_prefix is a hack; the readline libraries are in /usr/src,
 # but that gets included automatically, and bash links -L${ac_cv_rl_prefix}
@@ -30,13 +32,6 @@ CPPFLAGS="-DWORDEXP_OPTION"
 CYGCONF_ARGS="
 	--without-libintl-prefix --without-libiconv-prefix
 	--with-installed-readline
-	bash_cv_dev_stdin=present
-	bash_cv_dev_fd=standard
-	bash_cv_termcap_lib=libncurses
-	bash_cv_type_intmax_t=int64_t
-	bash_cv_type_uintmax_t=uint64_t
-	ac_cv_rl_version=6.2
-	ac_cv_func_isblank=yes
 "
 DIFF_EXCLUDES='bashref.info configure'
 

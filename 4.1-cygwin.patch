@@ -836,7 +836,16 @@
    default_buffered_input = fd;
    SET_CLOSE_ON_EXEC (default_buffered_input);
 --- origsrc/bash-4.1/subst.c	2009-12-30 06:24:28.000000000 -0700
-+++ src/bash-4.1/subst.c	2011-02-25 15:48:18.549705300 -0700
++++ src/bash-4.1/subst.c	2014-01-08 14:38:15.059328200 -0600
+@@ -37,6 +37,8 @@
+ #  include <unistd.h>
+ #endif
+ 
++#define NEED_SH_SETLINEBUF_DECL		/* used in externs.h */
++
+ #include "bashansi.h"
+ #include "posixstat.h"
+ #include "bashintl.h"
 @@ -4921,10 +4921,6 @@ read_comsub (fd, quoted, rflag)
    for (skip_ctlesc = skip_ctlnul = 0, s = ifs_value; s && *s; s++)
      skip_ctlesc |= *s == CTLESC, skip_ctlnul |= *s == CTLNUL;
