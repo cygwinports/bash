@@ -1,11 +1,11 @@
-# Copyright (C) 2007, 2008, 2009, 2010, 2011 Eric Blake
+# Copyright (C) 2007, 2008, 2009, 2010, 2011, 2014 Eric Blake
 # This file is free software; I give unlimited permission to copy and/or
 # distribute it, with or without modifications, as long as this notice is
 # preserved.
 
 NAME="bash"
-VERSION=4.1.11
-RELEASE=3
+VERSION=4.1.12
+RELEASE=5
 CATEGORY="Base Shells"
 SUMMARY="The GNU Bourne Again SHell"
 DESCRIPTION="Bash is an sh-compatible shell that incorporates useful features
@@ -14,10 +14,10 @@ IEEE POSIX P1003.2/ISO 9945.2 Shell and Tools standard.  It offers functional
 improvements over sh for both programming and interactive use. In addition,
 most sh scripts can be run by Bash without modification."
 HOMEPAGE="http://www.gnu.org/software/bash"
-SRC_URI="mirror://gnu/bash/${P%.*}.tar.gz \
-         mirror://gnu/bash/${P%.*}.tar.gz.sig"
+SRC_URI="mirror://gnu/bash/bash-${VERSION%.*}.tar.gz \
+         mirror://gnu/bash/bash-${VERSION%.*}.tar.gz.sig"
 SRC_DIR="bash-${VERSION%.*}"
-PATCH_URI=$(seq -f "mirror://gnu/bash/${P%.*}-patches/${PN}${PV_MAJ_MIN//./}-%03g " ${P##*.})
+PATCH_URI=$(seq -f "mirror://gnu/bash/bash-${VERSION%.*}-patches/bash${PV_MAJ_MIN//./}-%03g " ${VERSION##*.})
 PATCH_URI+="
 	4.1-cygwin.patch
 	4.1-deprecations.patch
@@ -32,6 +32,13 @@ CPPFLAGS="-DWORDEXP_OPTION"
 CYGCONF_ARGS="
 	--without-libintl-prefix --without-libiconv-prefix
 	--with-installed-readline
+	bash_cv_dev_stdin=present
+	bash_cv_dev_fd=standard
+	bash_cv_termcap_lib=libncurses
+	bash_cv_type_intmax_t=int64_t
+	bash_cv_type_uintmax_t=uint64_t
+	ac_cv_rl_version=6.2
+	ac_cv_func_isblank=yes
 "
 DIFF_EXCLUDES='bashref.info configure'
 
