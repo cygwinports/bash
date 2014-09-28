@@ -1,4 +1,4 @@
-bash 4.1.12-5
+bash 4.1.13-6
 ------------------------------------------
 Bash is an sh-compatible shell that incorporates useful features from
 the Korn shell (ksh) and C shell (csh).  It is intended to conform to
@@ -100,15 +100,15 @@ Language:
 ------------------------------------
 
 Build instructions:
-  unpack bash-4.1.12-5-src.tar.xz
+  unpack bash-4.1.13-6-src.tar.xz
     if you use setup to install this src package, it will be
     unpacked under /usr/src automatically
   cd /usr/src
   cygport bash.cygport all
 
 This will create:
-  /usr/src/bash-4.1.12-5.tar.xz
-  /usr/src/bash-4.1.12-5-src.tar.xz
+  /usr/src/bash-4.1.13-6.tar.xz
+  /usr/src/bash-4.1.13-6-src.tar.xz
 
 Or use 'cygport bash.cygport prep' to get a patched source directory
 
@@ -119,6 +119,11 @@ at <http://cygwin.com/packages/>.
 ------------------
 
 Port Notes:
+
+----- version 4.1.13-6 -- 2014-09-26 -----
+Fold in new official upstream patch (for CVE-2014-7169, ShellShock
+part 2), as well as Red Hat patch for saner function export
+namespacing (for CVE-2014-7186, CVE-2014-7187, ShellShock part 3).
 
 ----- version 4.1.12-5 -- 2014-09-24 -----
 Fold in new official upstream patch, for CVE-2014-6271. Update to
