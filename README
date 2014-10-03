@@ -1,4 +1,4 @@
-bash 4.1.13-6
+bash 4.1.16-8
 ------------------------------------------
 Bash is an sh-compatible shell that incorporates useful features from
 the Korn shell (ksh) and C shell (csh).  It is intended to conform to
@@ -73,7 +73,7 @@ Runtime requirements (these or newer):
   libreadline7-6.1.2-3
 
 Additional build conditions (these or newer):
-  bash-4.1.10-4
+  bash-4.1.14-7
   binutils-2.24.51-5
   bison-2.7.1-1
   cygport-0.17.0-1
@@ -100,15 +100,16 @@ Language:
 ------------------------------------
 
 Build instructions:
-  unpack bash-4.1.13-6-src.tar.xz
+  unpack bash-4.1.16-8-src.tar.xz
     if you use setup to install this src package, it will be
     unpacked under /usr/src automatically
   cd /usr/src
   cygport bash.cygport all
 
 This will create:
-  /usr/src/bash-4.1.13-6.tar.xz
-  /usr/src/bash-4.1.13-6-src.tar.xz
+  /usr/src/bash-4.1.16-8.tar.xz
+  /usr/src/bash-4.1.16-8-src.tar.xz
+  /usr/src/bash-debuginfo-4.1.16-8-src.tar.xz
 
 Or use 'cygport bash.cygport prep' to get a patched source directory
 
@@ -119,6 +120,14 @@ at <http://cygwin.com/packages/>.
 ------------------
 
 Port Notes:
+
+----- version 4.1.16-8 -- 2014-10-02 -----
+Fold in new official upstream patches for several parser bugs
+(CVE-2014-7186, CVE-2014-7187, CVE-2014-6277).
+
+----- version 4.1.14-7 -- 2014-09-29 -----
+Fold in new official upstream patch for all remaining ShellShock bugs
+(undoes need for Red Hat patch).
 
 ----- version 4.1.13-6 -- 2014-09-26 -----
 Fold in new official upstream patch (for CVE-2014-7169, ShellShock
